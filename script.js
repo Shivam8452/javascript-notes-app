@@ -4,15 +4,21 @@ let addbtn =document.getElementById('addbtn')
 addbtn.addEventListener('click',(e)=>{
     
     let textarea =  document.getElementById('textarea')
+    let title =  document.getElementById('title')
     let notes = localStorage.getItem('notes')
     if(notes == null){
         notesObj = [];
     }else{
         notesObj = JSON.parse(notes)
     }
-    notesObj.push(textarea.value);
+    let myObj = {
+        title:title.value,
+        text: textarea.value
+    }
+    notesObj.push(myObj);
     localStorage.setItem('notes',JSON.stringify(notesObj))
     textarea.value = "";
+    title.value = "";
     showNotes();
 })
 
@@ -28,8 +34,8 @@ const showNotes = ()=>{
         html += `
         <div class="NoteCard card m-3 " style="width: 18rem;">
             <div class="card-body text-center">
-            <h5 class="card-title">Note ${index + 1}</h5>
-              <p class="card-text">${element}</p>
+            <h5 class="card-title"> ${element.title}</h5>
+              <p class="card-text">${element.text}</p>
               <button id=${index} onclick=DeleteNote(this.id) class="btn btn-primary">Delete Note</button>
             </div>
         </div> `
